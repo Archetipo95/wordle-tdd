@@ -41,17 +41,16 @@ describe('WordleBoard', () => {
   })
 
   describe('Rules defing the word of the day', () => {
+    beforeEach(() => {
+      // Clear the console from errors
+      console.warn = vi.fn()
+    })
+
     test.each([
       { wordOfTheDay: 'FLY', reason: 'must have 5 characters' },
       { wordOfTheDay: 'tests', reason: 'must be in uppercase' },
       { wordOfTheDay: 'QWERT', reason: 'must be an English word' },
     ])('If the word $wordOfTheDay is provided, a warn is emitted because $reason', async ({ wordOfTheDay }) => {
-      // 1st way to mock the console.warn
-      const spy = vi.spyOn(console, 'warn')
-
-      // Clear the console from errors
-      spy.mockImplementation(() => null)
-
       mount(WordleBoard, {
         props: {
           wordOfTheDay,
@@ -62,9 +61,6 @@ describe('WordleBoard', () => {
     })
 
     test('No warning is emitted if you provide an English word, all uppercase with 5 characters', async () => {
-      // 2nd way to mock the console.warn
-      console.warn = vi.fn()
-
       mount(WordleBoard, {
         props: {
           wordOfTheDay: 'TESTS',
