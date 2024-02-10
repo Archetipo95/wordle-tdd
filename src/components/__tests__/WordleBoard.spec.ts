@@ -15,18 +15,20 @@ describe('WordleBoard', () => {
     })
   })
 
-  test('vicotry message appears wheen the user guesses the word', async () => {
+  const playerSubmitsGuess = async (guess: string) => {
     const guessInput = wrapper.find("input[type='text']")
-    await guessInput.setValue(wordOfTheDay)
+    await guessInput.setValue(guess)
     await guessInput.trigger('keydown.enter')
+  }
+
+  test('vicotry message appears wheen the user guesses the word', async () => {
+    await playerSubmitsGuess(wordOfTheDay)
 
     expect(wrapper.text()).toContain(VICTORY_MESSAGE)
   })
 
   test("a defeat message appears when the user doesn't guess the word", async () => {
-    const guessInput = wrapper.find("input[type='text']")
-    await guessInput.setValue('WRONG')
-    await guessInput.trigger('keydown.enter')
+    await playerSubmitsGuess('WRONG')
 
     expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
   })
