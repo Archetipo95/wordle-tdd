@@ -1,9 +1,10 @@
 <script setup lang="ts">
 defineProps<{
-  msg: string
+  wordOfTheDay: string
 }>()
 </script>
 
 <template>
-  <p>{{ msg }}</p>
+  <input type="text" name="inputGuess" id="inputGuess" />
+  <p>You won!</p>
 </template>
