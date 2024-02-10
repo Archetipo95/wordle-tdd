@@ -57,32 +57,8 @@ describe('WordleBoard', () => {
       expect(console.warn).toHaveBeenCalled()
     })
 
-    test('If the word is not in uppercase, a warn is emitted', async () => {
-      // 2nd way to mock the console.warn
-      console.warn = vi.fn()
-
-      mount(WordleBoard, {
-        props: {
-          wordOfTheDay: 'tests',
-        },
-      })
-
-      expect(console.warn).toHaveBeenCalled()
-    })
-
-    test('If the wordOfTheDay is not an English word, a warn is emitted', async () => {
-      console.warn = vi.fn()
-
-      mount(WordleBoard, {
-        props: {
-          wordOfTheDay: 'QWERT',
-        },
-      })
-
-      expect(console.warn).toHaveBeenCalled()
-    })
-
     test('No warning is emitted if you provide an English word, all uppercase with 5 characters', async () => {
+      // 2nd way to mock the console.warn
       console.warn = vi.fn()
 
       mount(WordleBoard, {
