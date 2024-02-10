@@ -21,73 +21,84 @@ describe('WordleBoard', () => {
     await guessInput.trigger('keydown.enter')
   }
 
-  test('vicotry message appears wheen the user guesses the word', async () => {
-    await playerSubmitsGuess(wordOfTheDay)
+  describe('When the game is over', () => {
+    test('vicotry message appears wheen the user guesses the word', async () => {
+      await playerSubmitsGuess(wordOfTheDay)
 
-    expect(wrapper.text()).toContain(VICTORY_MESSAGE)
-  })
-
-  test("a defeat message appears when the user doesn't guess the word", async () => {
-    await playerSubmitsGuess('WRONG')
-
-    expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
-  })
-
-  test("no end of game message appears when the user hasn't yet made a guess", async () => {
-    expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
-    expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
-  })
-
-  test('If the word is less than 5 characters, a warn is emitted', async () => {
-    // 1st way to mock the console.warn
-    const spy = vi.spyOn(console, 'warn')
-
-    // Clear the console from errors
-    spy.mockImplementation(() => null)
-
-    mount(WordleBoard, {
-      props: {
-        wordOfTheDay: 'FLY',
-      },
+      expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
 
-    expect(console.warn).toHaveBeenCalled()
-  })
+    test("a defeat message appears when the user doesn't guess the word", async () => {
+      await playerSubmitsGuess('WRONG')
 
-  test('If the word is not in uppercase, a warn is emitted', async () => {
-    // 2nd way to mock the console.warn
-    console.warn = vi.fn()
-
-    mount(WordleBoard, {
-      props: {
-        wordOfTheDay: 'tests',
-      },
+      expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
     })
 
-    expect(console.warn).toHaveBeenCalled()
+    test("no end of game message appears when the user hasn't yet made a guess", async () => {
+      expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
+      expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+    })
   })
 
-  test('If the wordOfTheDay is not an English word, a warn is emitted', async () => {
-    console.warn = vi.fn()
+  describe('Rules defing the word of the day', () => {
+    test('If the word is less than 5 characters, a warn is emitted', async () => {
+      // 1st way to mock the console.warn
+      const spy = vi.spyOn(console, 'warn')
 
-    mount(WordleBoard, {
-      props: {
-        wordOfTheDay: 'QWERT',
-      },
+      // Clear the console from errors
+      spy.mockImplementation(() => null)
+
+      mount(WordleBoard, {
+        props: {
+          wordOfTheDay: 'FLY',
+        },
+      })
+
+      expect(console.warn).toHaveBeenCalled()
     })
 
-    expect(console.warn).toHaveBeenCalled()
+    test('If the word is not in uppercase, a warn is emitted', async () => {
+      // 2nd way to mock the console.warn
+      console.warn = vi.fn()
+
+      mount(WordleBoard, {
+        props: {
+          wordOfTheDay: 'tests',
+        },
+      })
+
+      expect(console.warn).toHaveBeenCalled()
+    })
+
+    test('If the wordOfTheDay is not an English word, a warn is emitted', async () => {
+      console.warn = vi.fn()
+
+      mount(WordleBoard, {
+        props: {
+          wordOfTheDay: 'QWERT',
+        },
+      })
+
+      expect(console.warn).toHaveBeenCalled()
+    })
+
+    test('No warning is emitted if you provide an English word, all uppercase with 5 characters', async () => {
+      console.warn = vi.fn()
+
+      mount(WordleBoard, {
+        props: {
+          wordOfTheDay: 'TESTS',
+        },
+      })
+
+      expect(console.warn).not.toHaveBeenCalled()
+    })
   })
 
-  test('No warning is emitted if you provide an English word, all uppercase with 5 characters', async () => {
-    console.warn = vi.fn()
-
-    mount(WordleBoard, {
-      props: {
-        wordOfTheDay: 'TESTS',
-      },
-    })
-
-    expect(console.warn).not.toHaveBeenCalled()
+  describe('Player input', () => {
+    test.todo('player guesses are limited to 5 letters')
+    test.todo('player guesses can only be submitted if they are real words')
+    test.todo('player guesses are not case-sensitive')
+    test.todo('player guesses can only contain letters')
   })
 })
