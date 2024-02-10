@@ -44,6 +44,9 @@ describe('WordleBoard', () => {
     // Clear the console from errors
     spy.mockImplementation(() => null)
 
+    // Or just mock the console.warn method
+    // console.warn = vi.fn()
+
     mount(WordleBoard, {
       props: {
         wordOfTheDay: 'FLY',
