@@ -39,17 +39,28 @@ describe('WordleBoard', () => {
   })
 
   test('warn message appears if the word is less than 5 characters', async () => {
+    // 1st way to mock the console.warn
     const spy = vi.spyOn(console, 'warn')
 
     // Clear the console from errors
     spy.mockImplementation(() => null)
 
-    // Or just mock the console.warn method
-    // console.warn = vi.fn()
-
     mount(WordleBoard, {
       props: {
         wordOfTheDay: 'FLY',
+      },
+    })
+
+    expect(console.warn).toHaveBeenCalled()
+  })
+
+  test('If the word is not in uppercase, a warn is needed', async () => {
+    // 2nd way to mock the console.warn
+    console.warn = vi.fn()
+
+    mount(WordleBoard, {
+      props: {
+        wordOfTheDay: 'tests',
       },
     })
 
