@@ -41,7 +41,7 @@ describe('WordleBoard', () => {
   })
 
   describe('Rules defing the word of the day', () => {
-    test('If the word is less than 5 characters, a warn is emitted', async () => {
+    test.each(['FLY', 'tests', 'QWERT'])('If the word "%s" is provided, a warn is emitted', async (wordOfTheDay) => {
       // 1st way to mock the console.warn
       const spy = vi.spyOn(console, 'warn')
 
@@ -50,7 +50,7 @@ describe('WordleBoard', () => {
 
       mount(WordleBoard, {
         props: {
-          wordOfTheDay: 'FLY',
+          wordOfTheDay,
         },
       })
 
