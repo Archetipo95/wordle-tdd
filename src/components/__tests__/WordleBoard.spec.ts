@@ -38,7 +38,7 @@ describe('WordleBoard', () => {
     expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
   })
 
-  test('warn message appears if the word is less than 5 characters', async () => {
+  test('If the word is less than 5 characters, a warn is emitted', async () => {
     // 1st way to mock the console.warn
     const spy = vi.spyOn(console, 'warn')
 
@@ -54,13 +54,25 @@ describe('WordleBoard', () => {
     expect(console.warn).toHaveBeenCalled()
   })
 
-  test('If the word is not in uppercase, a warn is needed', async () => {
+  test('If the word is not in uppercase, a warn is emitted', async () => {
     // 2nd way to mock the console.warn
     console.warn = vi.fn()
 
     mount(WordleBoard, {
       props: {
         wordOfTheDay: 'tests',
+      },
+    })
+
+    expect(console.warn).toHaveBeenCalled()
+  })
+
+  test('If the wordOfTheDay is not an English word, a warn is emitted', async () => {
+    console.warn = vi.fn()
+
+    mount(WordleBoard, {
+      props: {
+        wordOfTheDay: 'QWERT',
       },
     })
 
