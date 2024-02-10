@@ -41,7 +41,11 @@ describe('WordleBoard', () => {
   })
 
   describe('Rules defing the word of the day', () => {
-    test.each(['FLY', 'tests', 'QWERT'])('If the word "%s" is provided, a warn is emitted', async (wordOfTheDay) => {
+    test.each([
+      { wordOfTheDay: 'FLY', reason: 'must have 5 characters' },
+      { wordOfTheDay: 'tests', reason: 'must be in uppercase' },
+      { wordOfTheDay: 'QWERT', reason: 'must be an English word' },
+    ])('If the word $wordOfTheDay is provided, a warn is emitted because $reason', async ({ wordOfTheDay }) => {
       // 1st way to mock the console.warn
       const spy = vi.spyOn(console, 'warn')
 
