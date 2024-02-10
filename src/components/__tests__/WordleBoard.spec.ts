@@ -37,4 +37,19 @@ describe('WordleBoard', () => {
     expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
     expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
   })
+
+  test('warn message appears if the word is less than 5 characters', async () => {
+    const spy = vi.spyOn(console, 'warn')
+
+    // Clear the console from errors
+    spy.mockImplementation(() => null)
+
+    mount(WordleBoard, {
+      props: {
+        wordOfTheDay: 'FLY',
+      },
+    })
+
+    expect(console.warn).toHaveBeenCalled()
+  })
 })
