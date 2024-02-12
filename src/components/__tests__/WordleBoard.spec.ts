@@ -27,15 +27,12 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
 
-    describe.each([
-      { numberOfGuesses: 0, showDefaultMessage: false },
-      { numberOfGuesses: 1, showDefaultMessage: false },
-      { numberOfGuesses: 2, showDefaultMessage: false },
-      { numberOfGuesses: 3, showDefaultMessage: false },
-      { numberOfGuesses: 4, showDefaultMessage: false },
-      { numberOfGuesses: 5, showDefaultMessage: false },
-      { numberOfGuesses: MAX_GUESSES_COUNT, showDefaultMessage: true },
-    ])(`defeat message appears when the user makes ${MAX_GUESSES_COUNT} wrong guesses in a row`, async ({ numberOfGuesses, showDefaultMessage }) => {
+    describe.each(
+      Array.from({ length: MAX_GUESSES_COUNT + 1 }, (_, numberOfGuesses) => ({
+        numberOfGuesses,
+        showDefaultMessage: numberOfGuesses === MAX_GUESSES_COUNT,
+      }))
+    )(`defeat message appears when the user makes ${MAX_GUESSES_COUNT} wrong guesses in a row`, async ({ numberOfGuesses, showDefaultMessage }) => {
       test(`for ${numberOfGuesses} guesses, a defeat message should ${showDefaultMessage ? '' : 'not'} appear`, async () => {
         for (let i = 0; i < numberOfGuesses; i++) {
           await playerSubmitsGuess('WRONG')
