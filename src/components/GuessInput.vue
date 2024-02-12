@@ -17,9 +17,9 @@ const formattedGuessInProgress = computed<string>({
     guessInProgress.value = null
 
     guessInProgress.value = rawValue
+      .slice(0, WORD_SIZE)
       .toUpperCase()
       .replace(/[^A-Z]/g, '')
-      .slice(0, WORD_SIZE)
   },
 })
 
@@ -29,6 +29,7 @@ const onSubmit = () => {
   }
 
   emit('guess-submitted', formattedGuessInProgress.value)
+  guessInProgress.value = null
 }
 </script>
 

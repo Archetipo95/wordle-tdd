@@ -99,26 +99,35 @@ describe('WordleBoard', () => {
       expect(document.activeElement).toBe(wrapper.find('input[type=text]').element)
     })
 
+    test('input gets cleared after submission', async () => {
+      await playerSubmitsGuess('WRONG')
+
+      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')
+    })
+
     test('player guesses are limited to 5 letters', async () => {
       await playerSubmitsGuess(wordOfTheDay + 'EXTRA')
 
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
+
     test('player guesses can only be submitted if they are real words', async () => {
       await playerSubmitsGuess('QWERT')
 
       expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
       expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
     })
+
     test('player guesses are not case-sensitive', async () => {
       await playerSubmitsGuess(wordOfTheDay.toLowerCase())
 
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
-    test('player guesses can only contain letters', async () => {
-      await playerSubmitsGuess('H3eL!Lo')
 
-      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('HELLO')
+    test('player guesses can only contain letters', async () => {
+      await playerSubmitsGuess('H3eL!')
+
+      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('HEL')
     })
 
     test('Non letter charaters dont render on the screen while beeing typed', async () => {
@@ -127,5 +136,13 @@ describe('WordleBoard', () => {
 
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')
     })
+  })
+
+  test('Previous guesses are all visible', async () => {
+    const guesses = ['WRONG', 'GUESS', 'HELLO', 'WORLD', 'HAPPY', 'CODER']
+
+    for (const guess of guesses) {
+      await playerSubmitsGuess(guess)
+    }
   })
 })
