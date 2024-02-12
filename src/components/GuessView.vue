@@ -3,7 +3,9 @@ import { WORD_SIZE } from '@/settings'
 
 const props = defineProps<{ guess: string; answer?: string }>()
 
-function getFeedback(letterPosition: number): null | 'correct' | 'incorrect' | 'almost' {
+type Feedback = null | 'correct' | 'incorrect' | 'almost'
+
+function getFeedback(letterPosition: number): Feedback {
   if (!props.answer) {
     return null
   }
