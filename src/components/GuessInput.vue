@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from '../settings'
+import { WORD_SIZE } from '../settings'
 import englishWords from '@/englishWordsWith5Letters.json'
 import { ref, computed } from 'vue'
 

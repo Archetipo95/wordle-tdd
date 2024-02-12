@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import GuessInput from './GuessInput.vue'
-import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from '../settings'
+import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from '../settings'
 import englishWords from '@/englishWordsWith5Letters.json'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   wordOfTheDay: {
