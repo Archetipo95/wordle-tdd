@@ -10,14 +10,16 @@ defineProps({
   },
 })
 
-const guessInProgress = ref('')
+const guessInProgress = ref<string | null>(null)
 const guessSubmitted = ref('')
 
-const formattedGuessInProgress = computed({
+const formattedGuessInProgress = computed<string>({
   get() {
-    return guessInProgress.value
+    return guessInProgress.value ?? ''
   },
   set(rawValue: string) {
+    guessInProgress.value = null
+
     guessInProgress.value = rawValue
       .toUpperCase()
       .replace(/[^A-Z]/g, '')
@@ -26,11 +28,11 @@ const formattedGuessInProgress = computed({
 })
 
 const onSubmit = () => {
-  if (!englishWords.includes(guessInProgress.value)) {
+  if (!englishWords.includes(formattedGuessInProgress.value)) {
     return
   }
 
-  guessSubmitted.value = guessInProgress.value
+  guessSubmitted.value = formattedGuessInProgress.value
 }
 </script>
 
