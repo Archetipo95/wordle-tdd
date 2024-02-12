@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import GuessInput from './GuessInput.vue'
-import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from '../settings'
+import { VICTORY_MESSAGE, DEFEAT_MESSAGE, MAX_GUESSES_COUNT } from '../settings'
 import englishWords from '@/englishWordsWith5Letters.json'
 import { ref } from 'vue'
 
@@ -20,7 +20,7 @@ const guessesSubmitted = ref<string[]>([])
     <guess-input @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
 
     <p
-      v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
+      v-if="guessesSubmitted.length === MAX_GUESSES_COUNT || guessesSubmitted.includes(wordOfTheDay)"
       class="end-of-game-message"
       v-text="guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE"
     />
