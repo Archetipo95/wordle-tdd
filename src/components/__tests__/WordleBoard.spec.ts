@@ -20,17 +20,33 @@ describe('WordleBoard', () => {
     await guessInput.trigger('keydown.enter')
   }
 
-  describe('When the game is over', () => {
-    test('vicotry message appears wheen the user guesses the word', async () => {
+  describe('End of game messages', () => {
+    test('victory message appears when the user guesses the word', async () => {
       await playerSubmitsGuess(wordOfTheDay)
 
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
 
-    test("a defeat message appears when the user doesn't guess the word", async () => {
-      await playerSubmitsGuess('WRONG')
+    describe.each([
+      { numberOfGuesses: 0, showDefaultMessage: false },
+      { numberOfGuesses: 1, showDefaultMessage: false },
+      { numberOfGuesses: 2, showDefaultMessage: false },
+      { numberOfGuesses: 3, showDefaultMessage: false },
+      { numberOfGuesses: 4, showDefaultMessage: false },
+      { numberOfGuesses: 5, showDefaultMessage: false },
+      { numberOfGuesses: 6, showDefaultMessage: true },
+    ])('defeat message appears when the user makes 6 wrong guesses in a row', async ({ numberOfGuesses, showDefaultMessage }) => {
+      test(`for ${numberOfGuesses} guesses, a defeat message should ${showDefaultMessage ? '' : 'not'} appear`, async () => {
+        for (let i = 0; i < numberOfGuesses; i++) {
+          await playerSubmitsGuess('WRONG')
+        }
 
-      expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
+        if (showDefaultMessage) {
+          expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
+        } else {
+          expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+        }
+      })
     })
 
     test("no end of game message appears when the user hasn't yet made a guess", async () => {
