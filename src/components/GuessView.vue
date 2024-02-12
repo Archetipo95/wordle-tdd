@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { WORD_SIZE } from '../settings'
+<script lang="ts" setup>
+import { WORD_SIZE } from '@/settings'
 
 defineProps<{ guess: string }>()
 </script>
@@ -15,12 +15,14 @@ ul {
   margin: 0;
   padding: 0;
 }
+
 .word {
   list-style: none;
   padding: 0;
   display: flex;
   gap: 0.25rem;
 }
+
 .letter {
   background-color: white;
   border: 1px solid hsl(0, 0%, 70%);
@@ -32,13 +34,16 @@ ul {
   font-size: 2rem;
   font-weight: bolder;
 }
+
 li:not([data-letter=' ']) {
   animation: pop 100ms;
 }
+
 @keyframes pop {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.4);
   }
