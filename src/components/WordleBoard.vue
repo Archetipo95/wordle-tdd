@@ -28,7 +28,7 @@ const countOfEmptyGuesses = computed(() => {
   <main>
     <ul>
       <li v-for="(guess, index) in guessesSubmitted" :key="`${index}-${guess}`">
-        <guess-view should-flip :guess="guess" />
+        <guess-view :guess="guess" :answer="wordOfTheDay" />
       </li>
       <li>
         <guess-input :disabled="isGameOver" @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
