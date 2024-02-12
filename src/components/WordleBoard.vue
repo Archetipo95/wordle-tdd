@@ -26,7 +26,7 @@ const isGameOver = computed(() => guessesSubmitted.value.length === MAX_GUESSES_
       </li>
     </ul>
 
-    <guess-input @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
+    <guess-input :disabled="isGameOver" @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
 
     <p v-if="isGameOver" class="end-of-game-message" v-text="guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE" />
   </main>
