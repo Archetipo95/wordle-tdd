@@ -26,3 +26,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+/cypress/snapshots/cypress/**/__diff_output__/
+
